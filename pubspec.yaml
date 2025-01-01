@@ -1,7 +1,9 @@
 name: multi_column_list_view
 description: "List view with multi column scalable."
 version: 0.0.1
-homepage:
+homepage: https://github.com/tinymahua/flutter_multi_column_list_view
+repository: https://github.com/tinymahua/flutter_multi_column_list_view
+issue_tracker: https://github.com/tinymahua/flutter_multi_column_list_view/issues
 
 environment:
   sdk: ^3.5.3
