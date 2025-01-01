@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 
 class MultiColumnListView extends StatefulWidget {
-  MultiColumnListView({
+  const MultiColumnListView({
     super.key,
     required this.columnWidths,
     required this.columnTitles,
@@ -19,22 +19,22 @@ class MultiColumnListView extends StatefulWidget {
     this.onRowContextMenu,
   });
 
-  List<Widget> columnTitles;
-  List<double> columnWidths;
-  double headerRowHeight;
-  double dataRowHeight;
-  double dividerWidth;
+  final List<Widget> columnTitles;
+  final List<double> columnWidths;
+  final double headerRowHeight;
+  final double dataRowHeight;
+  final double dividerWidth;
 
-  MultiColumnListController? controller;
-  List<Widget> Function(BuildContext context, int rowIndex) rowCellsBuilder;
+  final MultiColumnListController? controller;
+  final List<Widget> Function(BuildContext context, int rowIndex) rowCellsBuilder;
 
-  Color? tappedRowColor;
-  Color? hoveredRowColor;
-  Color? headerRowBgColor;
+  final Color? tappedRowColor;
+  final Color? hoveredRowColor;
+  final Color? headerRowBgColor;
 
-  Function(int)? onRowTap;
-  Function(int)? onRowDoubleTap;
-  Function(TapDownDetails, int)? onRowContextMenu;
+  final Function(int)? onRowTap;
+  final Function(int)? onRowDoubleTap;
+  final Function(TapDownDetails, int)? onRowContextMenu;
 
   @override
   State<MultiColumnListView> createState() => _MultiColumnListViewState();
@@ -95,7 +95,7 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-                child: Container(
+                child: SizedBox(
                     height: 20,
                     child: MultiSplitViewTheme(
                         data: MultiSplitViewThemeData(
@@ -153,7 +153,7 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
                                   ? widget.tappedRowColor
                                   : Colors.transparent,
                             ),
-                            child: Container(
+                            child: SizedBox(
                               height: widget.dataRowHeight,
                               // child: widget.rowCellsBuilder(context, idx),
                               child: SingleChildScrollView(
@@ -161,7 +161,7 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
                                 child: Row(
                                   children: List<Widget>.generate(
                                       rowCells.length, (int colIdx) {
-                                    return Container(
+                                    return SizedBox(
                                       width: columnWidths[colIdx]+widget.dividerWidth,
                                       child: rowCells[colIdx],
                                     );
