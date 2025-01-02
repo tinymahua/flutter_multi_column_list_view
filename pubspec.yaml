@@ -1,5 +1,5 @@
 name: multi_column_list_view
-description: "List view with multi column scalable."
+description: "List view with multi column scalable, customizable, draggable splitter inspired by <multi_split_view>."
 version: 0.0.2
 homepage: https://github.com/tinymahua/flutter_multi_column_list_view
 repository: https://github.com/tinymahua/flutter_multi_column_list_view
