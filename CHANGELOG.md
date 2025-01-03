@@ -9,3 +9,8 @@
 ## 0.0.3
 
 * Add demo codes.
+
+## 0.0.4
+
+* Optimize row cells layout.
+* Add list layer right click event, different to row cell visible content right click event.

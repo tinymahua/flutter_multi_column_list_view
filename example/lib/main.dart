@@ -34,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<double> _columnWidths = [100, 200, 100, 100];
   final MultiColumnListController _controller = MultiColumnListController();
+  String _msg = "";
 
   @override
   void initState() {
@@ -64,23 +65,50 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: MultiColumnListView(
-            hoveredRowColor: Colors.blue,
-            tappedRowColor: Colors.grey,
-            controller: _controller,
-            columnWidths: _columnWidths,
-            columnTitles: columnTitles,
-            rowCellsBuilder: (BuildContext context, int rowIdx) {
-              UserInfo user = _controller.rows.value[rowIdx] as UserInfo;
-              return [
-                Text("${user.id}"),
-                Text("${user.name} ${user.lastName}"),
-                Text(user.gender),
-                Text(user.address),
-              ];
-            }),
+        child: Column(
+          children: [
+            Expanded(
+              child: MultiColumnListView(
+                  hoveredRowColor: Colors.blue,
+                  tappedRowColor: Colors.grey,
+                  controller: _controller,
+                  columnWidths: _columnWidths,
+                  columnTitles: columnTitles,
+                  onRowTap: (int rowIdx){
+                    showSnakeBarMsg("Tapped row #${rowIdx+1}.");
+                  },
+                  onRowDoubleTap: (int rowIdx){
+                    showSnakeBarMsg("Double tapped row #${rowIdx+1}.");
+                  },
+                  onRowContextMenu: (TapDownDetails details, int rowIdx){
+                    showSnakeBarMsg("You can custom row context menu for row #${rowIdx+1}.");
+                  },
+                  onListContextMenu: (TapDownDetails details){
+                    showSnakeBarMsg("You can custom list context menu for blank area in row cells.");
+                  },
+                  rowCellsBuilder: (BuildContext context, int rowIdx) {
+                    UserInfo user = _controller.rows.value[rowIdx] as UserInfo;
+                    return [
+                      Text("${user.id}"),
+                      Text("${user.name} ${user.lastName}"),
+                      Text(user.gender),
+                      Text(user.address,),
+                    ];
+                  }),
+            ),
+            Container(
+              color: Theme.of(context).appBarTheme.backgroundColor,
+              child: Center(child: Text(_msg),),),
+          ],
+        ),
       ),
     );
+  }
+
+  showSnakeBarMsg(String msg){
+    setState(() {
+      _msg = msg;
+    });
   }
 }
 

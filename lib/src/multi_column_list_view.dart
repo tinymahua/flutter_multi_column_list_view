@@ -17,6 +17,7 @@ class MultiColumnListView extends StatefulWidget {
     this.onRowTap,
     this.onRowDoubleTap,
     this.onRowContextMenu,
+    this.onListContextMenu,
   });
 
   final List<Widget> columnTitles;
@@ -26,7 +27,8 @@ class MultiColumnListView extends StatefulWidget {
   final double dividerWidth;
 
   final MultiColumnListController? controller;
-  final List<Widget> Function(BuildContext context, int rowIndex) rowCellsBuilder;
+  final List<Widget> Function(BuildContext context, int rowIndex)
+      rowCellsBuilder;
 
   final Color? tappedRowColor;
   final Color? hoveredRowColor;
@@ -35,6 +37,7 @@ class MultiColumnListView extends StatefulWidget {
   final Function(int)? onRowTap;
   final Function(int)? onRowDoubleTap;
   final Function(TapDownDetails, int)? onRowContextMenu;
+  final Function(TapDownDetails)? onListContextMenu;
 
   @override
   State<MultiColumnListView> createState() => _MultiColumnListViewState();
@@ -75,6 +78,60 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
     });
   }
 
+  Widget _buildRow(BuildContext context, int rowIndex) {
+    List<Widget> rowCells = widget.rowCellsBuilder(context, rowIndex);
+    List<Widget> rowChildren =
+        List<Widget>.generate(rowCells.length, (int idx) {
+      Widget cellContent = GestureDetector(
+        onSecondaryTapDown: (details) {
+          setState(() {
+            _selectedRowIdx = rowIndex;
+          });
+          if (widget.onRowContextMenu != null) {
+            widget.onRowContextMenu!(details, rowIndex);
+          }
+        },
+        child: rowCells[idx],
+      );
+      Widget spaceContent = GestureDetector(
+        onSecondaryTapDown: (details) {
+          if (widget.onListContextMenu != null) {
+            widget.onListContextMenu!(details);
+          }
+        },
+        child: Container(
+          alignment: Alignment.center,
+          child: const Text(
+            "                                                                                                                          ",
+            style: TextStyle(overflow: TextOverflow.ellipsis),
+          ),
+        ),
+      );
+      Widget cellRow = SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            SingleChildScrollView(
+                scrollDirection: Axis.horizontal, child: cellContent),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal, child: spaceContent,
+            )
+          ],
+        ),
+      );
+      return idx == rowCells.length - 1 ? cellRow : SizedBox(
+                width: columnWidths[idx] + widget.dividerWidth, child: cellRow
+      );
+
+    });
+
+    return Container(
+      child: Row(
+        children: rowChildren,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     MultiSplitView headerView = MultiSplitView(
@@ -111,13 +168,7 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
         builder: (BuildContext context, Widget? child) {
           return ListView.builder(
             itemBuilder: (BuildContext context, int idx) {
-              List<Widget> rowCells = widget.rowCellsBuilder(context, idx);
               return GestureDetector(
-                  onSecondaryTapDown: (details) {
-                    if (widget.onRowContextMenu != null) {
-                      widget.onRowContextMenu!(details, idx);
-                    }
-                  },
                   onTapDown: (_) {
                     int currMills = DateTime.now().millisecondsSinceEpoch;
                     if ((currMills - _lastClickMilliseconds) < 500) {
@@ -140,7 +191,6 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
                       },
                       child: GestureDetector(
                         child: Container(
-                          padding: const EdgeInsets.symmetric(vertical: 3),
                           decoration: BoxDecoration(
                             color: _hoveredRowIdx == idx
                                 ? widget.hoveredRowColor
@@ -155,19 +205,9 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
                             ),
                             child: SizedBox(
                               height: widget.dataRowHeight,
-                              // child: widget.rowCellsBuilder(context, idx),
                               child: SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: List<Widget>.generate(
-                                      rowCells.length, (int colIdx) {
-                                    return SizedBox(
-                                      width: columnWidths[colIdx]+widget.dividerWidth,
-                                      child: rowCells[colIdx],
-                                    );
-                                  }),
-                                ),
-                              ),
+                                  scrollDirection: Axis.horizontal,
+                                  child: _buildRow(context, idx)),
                             ),
                           ),
                         ),
