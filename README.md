@@ -23,6 +23,7 @@ List view with multi column scalable, customizable, draggable splitter inspired 
 * Scalable column width by drag adjustment.
 * Fast and fully event response for row, just like tap, double tap, hover.
 * In a row cell, by distinguishing the content area from the blank area, different events can be triggered by right-clicking.
+* Blank rows also support right-click context menu, when list content dose not fill all available space.
 
 ## Getting Started
 
