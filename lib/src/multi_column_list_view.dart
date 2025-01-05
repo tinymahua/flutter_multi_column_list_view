@@ -26,9 +26,9 @@ class MultiColumnListView extends StatefulWidget {
     this.onRowDoubleTap,
     this.onRowContextMenu,
     this.onListContextMenu,
+    this.debug = false,
   });
 
-  ///
   final List<Widget> columnTitles;
   final List<double> columnWidths;
   final double headerRowHeight;
@@ -47,6 +47,8 @@ class MultiColumnListView extends StatefulWidget {
   final Function(int)? onRowDoubleTap;
   final Function(TapDownDetails, int)? onRowContextMenu;
   final Function(TapDownDetails)? onListContextMenu;
+
+  final bool debug;
 
   @override
   State<MultiColumnListView> createState() => _MultiColumnListViewState();
@@ -76,6 +78,14 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
 
     if (widget.controller != null) {
       _controller = widget.controller!;
+      // _controller.rows.addListener((){
+      //   if (_dynamicBlankHeight != null) {
+      //     debugPrint("Computed _dynamicBlankHeight: $_dynamicBlankHeight");
+      //     setState(() {
+      //       _blankHeight = _dynamicBlankHeight! < 0 ? 0 : _dynamicBlankHeight!;
+      //     });
+      //   }
+      // });
     }
 
     columnWidths = widget.columnWidths;
@@ -95,12 +105,16 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
   }
 
   setupEvents() {
-    Timer _ = Timer.periodic(const Duration(milliseconds: 200), (t) {
+    Future.delayed(const Duration(milliseconds: 500), dynamicLayoutBlank);
+  }
+
+  dynamicLayoutBlank(){
+    Timer _ = Timer.periodic(const Duration(milliseconds: 300), (t) {
       if (_dynamicBlankHeight != null) {
         setState(() {
           _blankHeight = _dynamicBlankHeight! < 0 ? 0 : _dynamicBlankHeight!;
         });
-        t.cancel();
+        // t.cancel();
       }
     });
   }
@@ -112,15 +126,15 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
       double? headerH;
       double? dataH;
       var containerCtx = _containerKey.currentContext;
-      if (containerCtx != null && containerCtx.size != null) {
+      if (containerCtx != null && containerCtx.mounted && containerCtx.size != null) {
         containerH = containerCtx.size!.height;
       }
       var headerCtx = _headerKey.currentContext;
-      if (headerCtx != null && headerCtx.size != null) {
+      if (headerCtx != null && headerCtx.mounted && headerCtx.size != null) {
         headerH = headerCtx.size!.height;
       }
       var dataCtx = _dataKey.currentContext;
-      if (dataCtx != null && dataCtx.size != null) {
+      if (dataCtx != null && dataCtx.mounted && dataCtx.size != null) {
         dataH = widget.dataRowHeight * _controller.rows.value.length;
       }
       if (containerH != null && headerH != null && dataH != null) {
@@ -271,17 +285,17 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
             },
           )),
       GestureDetector(
-        onSecondaryTapDown: (details) {
-          if (widget.onListContextMenu != null) {
-            widget.onListContextMenu!(details);
-          }
-        },
-        child: Container(
-          height: _blankHeight,
-          color: Colors.transparent,
-          child: const Row(children: [Expanded(child: Text(" "))]),
-        ),
-      )
+          onSecondaryTapDown: (details) {
+            if (widget.onListContextMenu != null) {
+              widget.onListContextMenu!(details);
+            }
+          },
+          child: Container(
+            height: _blankHeight,
+            color: Colors.transparent,
+            child: const Row(children: [Expanded(child: Text(" "))]),
+          ),
+        )
     ]);
   }
 
@@ -313,6 +327,7 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
   }
 }
 
-class MultiColumnListController {
+class MultiColumnListController{
   ValueNotifier<List<dynamic>> rows = ValueNotifier([]);
+
 }
