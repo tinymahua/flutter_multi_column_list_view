@@ -78,14 +78,6 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
 
     if (widget.controller != null) {
       _controller = widget.controller!;
-      // _controller.rows.addListener((){
-      //   if (_dynamicBlankHeight != null) {
-      //     debugPrint("Computed _dynamicBlankHeight: $_dynamicBlankHeight");
-      //     setState(() {
-      //       _blankHeight = _dynamicBlankHeight! < 0 ? 0 : _dynamicBlankHeight!;
-      //     });
-      //   }
-      // });
     }
 
     columnWidths = widget.columnWidths;
@@ -105,7 +97,7 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
   }
 
   setupEvents() {
-    Future.delayed(const Duration(milliseconds: 500), dynamicLayoutBlank);
+    Future.delayed(const Duration(milliseconds: 1000), dynamicLayoutBlank);
   }
 
   dynamicLayoutBlank(){
@@ -329,5 +321,4 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
 
 class MultiColumnListController{
   ValueNotifier<List<dynamic>> rows = ValueNotifier([]);
-
 }
