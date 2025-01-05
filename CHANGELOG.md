@@ -1,6 +1,10 @@
+## 0.0.6 
+
+* Add list layer right click event on blank area of whole table, even empty rows.
+
 ## 0.0.5
 
-Change demo codes.
+* Change demo codes.
 
 ## 0.0.4
 

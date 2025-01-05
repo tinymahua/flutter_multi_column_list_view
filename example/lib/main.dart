@@ -5,7 +5,9 @@ void main() {
   runApp(const MyApp());
 }
 
+/// The main application widget.
 class MyApp extends StatelessWidget {
+  /// Creates a new instance of [MyApp].
   const MyApp({super.key});
 
   // This widget is the root of your application.
@@ -22,9 +24,13 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// The main application widget.
 class MyHomePage extends StatefulWidget {
+
+  /// Creates a new instance of [MyHomePage].
   const MyHomePage({super.key, required this.title});
 
+  /// The title of the application.
   final String title;
 
   @override
@@ -44,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   loadUsers() {
-    for (var row in users) {
+    for (var row in users.sublist(0, 10)) {
       _controller.rows.value.add(UserInfo.fromJson(row));
     }
   }
@@ -74,17 +80,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   controller: _controller,
                   columnWidths: _columnWidths,
                   columnTitles: columnTitles,
-                  onRowTap: (int rowIdx){
-                    showSnakeBarMsg("Tapped row #${rowIdx+1}.");
+                  onRowTap: (int rowIdx) {
+                    showSnakeBarMsg("Tapped row #${rowIdx + 1}.");
                   },
-                  onRowDoubleTap: (int rowIdx){
-                    showSnakeBarMsg("Double tapped row #${rowIdx+1}.");
+                  onRowDoubleTap: (int rowIdx) {
+                    showSnakeBarMsg("Double tapped row #${rowIdx + 1}.");
                   },
-                  onRowContextMenu: (TapDownDetails details, int rowIdx){
-                    showSnakeBarMsg("You can custom row context menu for row #${rowIdx+1}.");
+                  onRowContextMenu: (TapDownDetails details, int rowIdx) {
+                    showSnakeBarMsg(
+                        "You can custom row context menu for row #${rowIdx + 1}.");
                   },
-                  onListContextMenu: (TapDownDetails details){
-                    showSnakeBarMsg("You can custom list context menu for blank area in row cells.");
+                  onListContextMenu: (TapDownDetails details) {
+                    showSnakeBarMsg(
+                        "You can custom list context menu for blank area in row cells.");
                   },
                   rowCellsBuilder: (BuildContext context, int rowIdx) {
                     UserInfo user = _controller.rows.value[rowIdx] as UserInfo;
@@ -92,25 +100,31 @@ class _MyHomePageState extends State<MyHomePage> {
                       Text("${user.id}"),
                       Text("${user.name} ${user.lastName}"),
                       Text(user.gender),
-                      Text(user.address,),
+                      Text(
+                        user.address,
+                      ),
                     ];
                   }),
             ),
             Container(
               color: Theme.of(context).appBarTheme.backgroundColor,
-              child: Center(child: Text(_msg),),),
+              child: Center(
+                child: Text(_msg),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  showSnakeBarMsg(String msg){
+  showSnakeBarMsg(String msg) {
     setState(() {
       _msg = msg;
     });
   }
 }
+
 
 class UserInfo {
   int id;
