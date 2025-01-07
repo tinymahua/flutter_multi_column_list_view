@@ -1,3 +1,7 @@
+## 0.0.7
+
+* When a row was selected, space in this row will trigger row lever context right-clicking menu.
+
 ## 0.0.6 
 
 * Add list layer right click event on blank area of whole table, even empty rows.

@@ -14,12 +14,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Multi Column List View Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Multi Column List View | Flutter List Table',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Multi Column List View Demo Home Page'),
+      home: const MyHomePage(title: 'Multi Column List View | Flutter List Table'),
     );
   }
 }

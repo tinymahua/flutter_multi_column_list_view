@@ -97,6 +97,12 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
   }
 
   setupEvents() {
+
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     Future.delayed(const Duration(milliseconds: 1000), dynamicLayoutBlank);
   }
 
@@ -117,21 +123,26 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
       double? containerH;
       double? headerH;
       double? dataH;
-      var containerCtx = _containerKey.currentContext;
-      if (containerCtx != null && containerCtx.mounted && containerCtx.size != null) {
-        containerH = containerCtx.size!.height;
+      try {
+        var containerCtx = _containerKey.currentContext;
+        if (containerCtx != null && containerCtx.mounted && containerCtx.size != null) {
+          containerH = containerCtx.size!.height;
+        }
+        var headerCtx = _headerKey.currentContext;
+        if (headerCtx != null && headerCtx.mounted && headerCtx.size != null) {
+          headerH = headerCtx.size!.height;
+        }
+        var dataCtx = _dataKey.currentContext;
+        if (dataCtx != null && dataCtx.mounted && dataCtx.size != null) {
+          dataH = widget.dataRowHeight * _controller.rows.value.length;
+        }
+        if (containerH != null && headerH != null && dataH != null) {
+          blankH = containerH - headerH - dataH;
+        }
+      }catch(e){
+        /// Do nothing.
       }
-      var headerCtx = _headerKey.currentContext;
-      if (headerCtx != null && headerCtx.mounted && headerCtx.size != null) {
-        headerH = headerCtx.size!.height;
-      }
-      var dataCtx = _dataKey.currentContext;
-      if (dataCtx != null && dataCtx.mounted && dataCtx.size != null) {
-        dataH = widget.dataRowHeight * _controller.rows.value.length;
-      }
-      if (containerH != null && headerH != null && dataH != null) {
-        blankH = containerH - headerH - dataH;
-      }
+
     }
     return blankH;
   }
@@ -152,7 +163,14 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
         child: rowCells[idx],
       );
       Widget spaceContent = GestureDetector(
-        onSecondaryTapDown: (details) {
+        onSecondaryTapDown: rowIndex == _selectedRowIdx ? (details) {
+          setState(() {
+            _selectedRowIdx = rowIndex;
+          });
+          if (widget.onRowContextMenu != null) {
+            widget.onRowContextMenu!(details, rowIndex);
+          }
+        }: (details) {
           if (widget.onListContextMenu != null) {
             widget.onListContextMenu!(details);
           }
@@ -313,10 +331,7 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
     });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
+
 }
 
 class MultiColumnListController{

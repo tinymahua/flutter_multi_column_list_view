@@ -18,12 +18,13 @@ List view with multi column scalable, customizable, draggable splitter inspired 
 ![demo](https://github.com/tinymahua/flutter_multi_column_list_view/blob/main/doc/images/demo.png)
 
 ## Features
-
+* Easy to use, display your tables anywhere.
 * Fixed header with custom header title.
 * Scalable column width by drag adjustment.
 * Fast and fully event response for row, just like tap, double tap, hover.
 * In a row cell, by distinguishing the content area from the blank area, different events can be triggered by right-clicking.
 * Blank rows also support right-click context menu, when list content dose not fill all available space.
+* When a row was selected, space in this row will trigger row lever context right-clicking menu.
 
 ## Getting Started
 
