@@ -15,7 +15,7 @@ and the Flutter guide for
 
 List view with multi column scalable, customizable, draggable splitter inspired by multi_split_view.
 
-![demo](https://github.com/tinymahua/flutter_multi_column_list_view/blob/main/doc/images/demo.png)
+![demo](https://tinymahua.github.io/flutter-list-table.site/imgs/res/demo.png)
 
 ## Features
 * Easy to use, display your tables anywhere.
