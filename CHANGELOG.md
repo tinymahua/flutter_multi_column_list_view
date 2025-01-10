@@ -1,3 +1,7 @@
+## 0.0.8
+
+Fix compute blank area delay.
+
 ## 0.0.7
 
 * When a row was selected, space in this row will trigger row lever context right-clicking menu.

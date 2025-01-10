@@ -1,6 +1,6 @@
 /// Multiple column list view like a table.
 ///
-/// Copyright (c) 2025, Tiny.Twist <tiny.mahua@gmail.com>
+/// Copyright (c) 2025, Tiny.Twist tiny.mahua@gmail.com
 library;
 
 import 'dart:async';
@@ -103,7 +103,7 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    Future.delayed(const Duration(milliseconds: 1000), dynamicLayoutBlank);
+    Future.delayed(const Duration(milliseconds: 100), dynamicLayoutBlank);
   }
 
   dynamicLayoutBlank(){
