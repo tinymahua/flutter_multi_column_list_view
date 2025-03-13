@@ -15,6 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
   multi_split_view: ^3.6.0
+  keframe: ^3.0.0
 
 dev_dependencies:
   flutter_test:
