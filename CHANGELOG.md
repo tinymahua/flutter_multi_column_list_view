@@ -1,3 +1,7 @@
+## 0.0.9
+
+Add list table render optimize.
+
 ## 0.0.8
 
 Fix compute blank area delay.
