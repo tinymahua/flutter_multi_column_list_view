@@ -214,10 +214,9 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
   Widget _buildTable(){
     return widget.optimizeListRender ? SizeCacheWidget(
       child: ListView.builder(
-        cacheExtent: 50,
+        // cacheExtent: 5,
         itemBuilder: (BuildContext context, int idx) {
-          return FrameSeparateWidget(
-            child: GestureDetector(
+          return GestureDetector(
                 onTapDown: (_) {
                   int currMills = DateTime.now().millisecondsSinceEpoch;
                   if ((currMills - _lastClickMilliseconds) < 500) {
@@ -260,8 +259,7 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
                           ),
                         ),
                       ),
-                    ))),
-          );
+                    )));
         },
         itemCount: _controller.rows.value.length,
       ),
@@ -354,60 +352,6 @@ class _MultiColumnListViewState extends State<MultiColumnListView> {
             listenable: Listenable.merge([_controller.rows]),
             builder: (BuildContext context, Widget? child) {
               return _buildTable();
-              // return SizeCacheWidget(
-              //   child: ListView.builder(
-              //     cacheExtent: 50,
-              //     itemBuilder: (BuildContext context, int idx) {
-              //       return FrameSeparateWidget(
-              //         child: GestureDetector(
-              //             onTapDown: (_) {
-              //               int currMills = DateTime.now().millisecondsSinceEpoch;
-              //               if ((currMills - _lastClickMilliseconds) < 500) {
-              //                 if (idx == _lastTappedRowIdx) {
-              //                   if (widget.onRowDoubleTap != null) {
-              //                     widget.onRowDoubleTap!(idx);
-              //                   }
-              //                 }
-              //               } else {
-              //                 _lastClickMilliseconds = currMills;
-              //                 _lastTappedRowIdx = idx;
-              //                 onRowTap(idx);
-              //               }
-              //             },
-              //             child: MouseRegion(
-              //                 onHover: (_) {
-              //                   setState(() {
-              //                     _hoveredRowIdx = idx;
-              //                   });
-              //                 },
-              //                 child: GestureDetector(
-              //                   child: Container(
-              //                     decoration: BoxDecoration(
-              //                       color: _hoveredRowIdx == idx
-              //                           ? widget.hoveredRowColor
-              //                           : Colors.transparent,
-              //                       borderRadius: BorderRadius.circular(4),
-              //                     ),
-              //                     child: Container(
-              //                       decoration: BoxDecoration(
-              //                         color: _selectedRowIdx == idx
-              //                             ? widget.tappedRowColor
-              //                             : Colors.transparent,
-              //                       ),
-              //                       child: SizedBox(
-              //                         height: widget.dataRowHeight,
-              //                         child: SingleChildScrollView(
-              //                             scrollDirection: Axis.horizontal,
-              //                             child: _buildRow(context, idx)),
-              //                       ),
-              //                     ),
-              //                   ),
-              //                 ))),
-              //       );
-              //     },
-              //     itemCount: _controller.rows.value.length,
-              //   ),
-              // );
             },
           )),
       GestureDetector(

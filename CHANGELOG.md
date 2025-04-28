@@ -1,3 +1,7 @@
+## 0.0.10
+
+Switch general list view.
+
 ## 0.0.9
 
 Add list table render optimize.

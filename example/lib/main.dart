@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:multi_column_list_view/multi_column_list_view.dart';
 
@@ -51,7 +53,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   loadUsers() {
-    for (var row in users) {
+    var len = users.length;
+    var rng = new Random();
+    var randn = rng.nextInt(len);
+    setState(() {
+      _controller.rows.value = [];
+    });
+    for (var row in users.sublist(0, randn).reversed) {
       _controller.rows.value.add(UserInfo.fromJson(row));
     }
   }
@@ -66,6 +74,9 @@ class _MyHomePageState extends State<MyHomePage> {
     ];
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        loadUsers();
+      }),
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
